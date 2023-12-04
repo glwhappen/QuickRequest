@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>配置请求发送器</title>
+</head>
+<body>
+    <h1>配置请求发送器</h1>
+    <form id="settings-form">
+        <div>
+            <label for="requestTemplate">完整的请求模板:</label>
+            <textarea id="requestTemplate" rows="10" cols="50">curl --location 'http://localhost/posts' \
+                --header 'authorization: token' \
+                --header 'content-type: application/json' \
+                --data '{
+                    "text": "$text$\n\n [$title$]($url$)",
+                    "categoryName": "浏览器添加",
+                    "tagNames": [
+                        "浏览器添加"
+                    ]
+                }'</textarea>
+        </div>
+
+        <div>
+            <label for="menuTitle">菜单标题:</label>
+            <input type="text" id="menuTitle" placeholder="发送请求" value="发送请求">
+        </div>
+
+        <button type="submit">保存设置</button>
+    </form>
+
+    <script src="options.js"></script>
+</body>
+</html>
