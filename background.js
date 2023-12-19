@@ -66,7 +66,11 @@ function parseCurlCommand(curlCommand) {
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
     chrome.storage.local.get(['requestTemplate'], function(data) {
         let { url, method, headers, data: requestData } = parseCurlCommand(data.requestTemplate);
-
+        Object.keys(urlFixRule).forEach(baseURL => {
+            if (tab.url.startsWith(baseURL)) {
+                tab.url = urlFixRule[baseURL](tab.url);
+            }
+        });
         // 替换占位符
         requestData = requestData.replace(/\$text\$/, info.selectionText || '')
                                  .replace(/\$title\$/, tab.title)
@@ -108,3 +112,12 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
         });
     });
 });
+
+const urlFixRule = {
+    "https://blog.csdn.net/sumatch/article/details/": (url) => {
+        return url.split("?")[0];
+    },
+    "https://www.bilibili.com/video/": (url) => {
+        return url.split("?")[0];
+    }
+};
